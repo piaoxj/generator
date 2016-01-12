@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ibatorConfiguration><jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+    connectString="jdbc:mysql://172.16.5.63:3601/mlspay_server_new" userId="meiliwork" password="Tqs2nHFn4pvgw"/>
+    <generator packageName="com.mls.pay.admin" extendPackage="stat" targetPath="D:/Temp/src" />
+    <tableList>
+        <table schema="" tableName="api_ip_limit" />
+    </tableList>
+</ibatorConfiguration>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ibatorConfiguration><jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+    connectString="jdbc:mysql://192.168.190.16:3306/pay_channel" userId="meiliwork" password="Tqs2nHFn4pvgw"/>
+    <generator packageName="com.zebra.pay.mysql" extendPackage="stat" targetPath="D:/Temp/src" />
+    <tableList>
+        <table schema="" tableName="channel_refundinfo" />
+    </tableList>
+</ibatorConfiguration>

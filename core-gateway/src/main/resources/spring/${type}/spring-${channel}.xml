@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+       default-autowire="byName">
+    <bean id="clientChannelTongxinHandler" class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}TongxinHandler"></bean>
+    <bean id="${channel}" class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_ChannelImpl">
+        <property name="channelTongXinHandler" ref="clientChannelTongxinHandler"/>
+        <property name="channelConfig">
+            <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_Config">
+                <property name="charset" value="${channel}.charset}"/>
+                <property name="connTimeOut" value="${channel}.timeout}"/>
+                <property name="version" value="${channel}.version}"/>
+                <property name="refNotifyUrl" value="${channel}.refNotifyUrl}"/>
+                <property name="notifyUrl" value="${channel}.notifyUrl}"/>
+                <property name="pageUrl" value="${channel}.pageyUrl}"/>
+                <property name="payUri" value="${channel}.payUri}"/>
+                <property name="queryUri" value="${channel}.queryUri}"/>
+                <property name="refundUri" value="${channel}.refundUri}"/>
+                <property name="queryRefundUri" value="${channel}.queryRefundUri}"/>
+            </bean>
+        </property>
+        <property name="channelMsgHandler">
+            <map>
+
+                <entry key-ref="PAY">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_PayMsgHandler"/>
+                </entry>
+                <entry key-ref="REFUND">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_RefundMsgHandler"/>
+                </entry>
+                <entry key-ref="QUERY">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_QueryPayMsgHandler"/>
+                </entry>
+                <entry key-ref="QUERYREFUND">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_QueryRefundMsgHandler"/>
+                </entry>
+                <entry key-ref="CALLBACK">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_CallBackMsgHandler"/>
+                </entry>
+
+                <entry key-ref="REFUNDCALLBACK">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.${channelClass}_RefCallBackMsgHandler"/>
+                </entry>
+
+            </map>
+        </property>
+
+        <property name="channelValidateHandler">
+            <map>
+                <entry key-ref="PAY">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.vld.${channelClass}_PayVld"/>
+                </entry>
+                <entry key-ref="REFUND">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.vld.${channelClass}_RefundVld"/>
+                </entry>
+                <entry key-ref="QUERY">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.vld.${channelClass}_QueryVld"/>
+                </entry>
+                <entry key-ref="QUERYREFUND">
+                    <bean class="com.mls.pay.bankchannel.core.channel.${type}.impl.${channel}.vld.${channelClass}_QueryRefundVld"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+</beans>

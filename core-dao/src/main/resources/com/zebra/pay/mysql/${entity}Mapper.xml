@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="gb18030"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zebra.pay.mysql.${entity}Mapper">
+<#if (table.columnList?size > 0)>
+    <resultMap id="ibator_BaseResultMap" type="com.zebra.pay.domain.${entity}">
+	<#list table.columnList as column>
+		<result property="${column.code}" column="${column.code}" jdbcType="${column.dataType}"/>
+	</#list>    
+    </resultMap>
+
+
+	
+	<select id="zebra_select${entity}BySelective" resultMap="ibator_BaseResultMap" parameterType="java.util.Map" >
+        SELECT
+		<#list table.columnList as column>
+			${column.code}<#if column_has_next >,</#if>
+		</#list>
+        FROM .${table.code} 
+		<where>
+		<#list table.columnList as column>
+			<#assign x='${column.code}:${column.dataType?upper_case}' />
+			<if test="${column.code} != null and ${column.code} !=''">
+				AND ${column.code}=<#noparse>#{</#noparse>${x}<#noparse>}</#noparse>
+			</if>
+		</#list>		
+		</where>
+		<if test="orderBy!=null" >
+            ORDER BY <#noparse>${orderBy} ${order}</#noparse>
+		</if>
+	</select>
+
+	<select id="zebra_select${entity}ByPrimaryKey" resultMap="ibator_BaseResultMap" parameterType="java.lang.Long" >
+        SELECT
+		<#list table.columnList as column>
+			${column.code}<#if column_has_next >,</#if>
+		</#list>
+        FROM .${table.code} 
+		<where>
+			 id=<#noparse>#{id:BIGINT}</#noparse>	
+		</where>
+		
+	</select>
+	
+
+	<select id="zebra_count${entity}BySelective" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(*) as count from
+    .${table.code}
+	<where>
+	<#list table.columnList as column>
+		<#assign x='${column.code}:${column.dataType?upper_case}' />
+		<if test="${column.code} != null and ${column.code} !=''">
+			AND ${column.code}=<#noparse>#{</#noparse>${x}<#noparse>}</#noparse>
+		</if>
+	</#list>
+	</where>
+  </select>  
+
+	<insert id="zebra_insert${entity}BySelective" parameterType="java.util.Map" >
+        INSERT INTO .${table.code}
+		<trim prefix=<#noparse>"("</#noparse> suffix=<#noparse>")"</#noparse> suffixOverrides=<#noparse>","</#noparse> >
+		<#list table.columnList as column>
+			<if test="${column.code} != null and ${column.code} !=''">
+				${column.code},
+			</if>
+		</#list>
+		</trim>
+        VALUES
+		<trim prefix=<#noparse>"("</#noparse> suffix=<#noparse>")"</#noparse> suffixOverrides=<#noparse>","</#noparse> >
+		<#list table.columnList as column>
+			<#assign x='${column.code}:${column.dataType?upper_case}' />
+			<if test="${column.code} != null and ${column.code} !=''">
+				<#noparse>#{</#noparse>${x}<#noparse>},</#noparse>
+			</if>
+		</#list>
+		</trim>
+	</insert>
+
+	<update id="zebra_update${entity}BySelective" parameterType="java.util.Map" >
+	update .${table.code}
+	<set>
+	   <#list table.columnList as column>
+		<#assign x='${column.code}:${column.dataType?upper_case}' />
+			<if test="${column.code} != null and ${column.code} !=''">
+				${column.code}=<#noparse>#{</#noparse>${x}<#noparse>},</#noparse>
+			</if>
+	   </#list>			
+	</set>
+	where
+	   id=<#noparse>#{id:BIGINT}</#noparse>
+
+	</update>
+
+</#if> 
+</mapper>
